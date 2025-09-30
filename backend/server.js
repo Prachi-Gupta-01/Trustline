@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectdB } from "./config/db.js";
-
+import authRoute from "./routes/authRoute.js";
 dotenv.config();
 connectdB();
 
@@ -10,6 +10,9 @@ const app = express();
 
 app.use(cors()); // allow cross-origin requests i.e frontend to backend
 app.use(express.json()); // parse incoming JSON requests
+
+//routes
+app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => {
   res.send("Trustline is active!");
