@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -66,7 +67,11 @@ const Login = () => {
             required
           />
           <button type="submit" className="login-button">Login</button>
-        </form>
+
+           <p className="switch">
+           Don't have an account? <Link to="/Signup"> Register here</Link>
+          </p>
+          </form>
       </div>
     </div>
   );

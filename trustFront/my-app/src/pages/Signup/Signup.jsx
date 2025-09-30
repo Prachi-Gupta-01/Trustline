@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +19,7 @@ const Signup=()=> {
     city: "",
     state: "",
     pincode: "",
-    itc: "",
+    aadhar: "",
   });
 
   const handleChange = (e) => {
@@ -69,9 +70,13 @@ const Signup=()=> {
         <input type="text" name="city" placeholder="City" value={form.city} onChange={handleChange} required />
         <input type="text" name="state" placeholder="State" value={form.state} onChange={handleChange} required  />
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
-        <input type="text" name="aadhar no." placeholder="Aadhar Number" value={form.itc} onChange={handleChange} required />
+        <input type="text" name="aadhar" placeholder="Aadhar Number" value={form.aadhar} onChange={handleChange} required />
 
         <button type="submit" className="signup-button">Signup</button>
+
+        <p className="switch">
+          Already registered? <Link to="/Login"> Login here</Link>
+        </p>
       </form>
     </div>
     </div>
