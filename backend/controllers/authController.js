@@ -5,7 +5,20 @@ import jwt from "jsonwebtoken";
 //register user
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const {
+      username,
+      email,
+      password,
+      phone,
+      gender,
+      address1,
+      address2,
+      city,
+      state,
+      pincode,
+      adhaar,
+      role,
+    } = req.body;
     //validation
     // if anyfield is missing
     if (!username || !email || !password) {
@@ -21,7 +34,20 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //create new user
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      phone,
+      gender,
+      address1,
+      address2,
+      city,
+      state,
+      pincode,
+      adhaar,
+      role,
+    });
     await newUser.save();
 
     res.status(201).json({ msg: "User registered successfully" });
@@ -34,9 +60,9 @@ export const register = async (req, res) => {
 // login user
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
     //check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, username });
     if (!user) {
       res.status(400).json({ msg: "User does not exist" });
     }
@@ -55,6 +81,7 @@ export const login = async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (err) {
