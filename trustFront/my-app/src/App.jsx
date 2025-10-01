@@ -7,11 +7,14 @@ import Home from "./pages/Home/Home.jsx";
 import SubmitComp from "./pages/SubmitComp/SubmitComp.jsx";
 import Track from "./pages/Track/Track.jsx";
 import Notify from "./pages/Notify/Notify.jsx";
+import { useState } from "react";
 const App=()=> {
+  const [showLogin,setShowLogin]=useState(false);
   return (
     
+    
     <div>
-      <Navbar/>
+      <Navbar showLogin={showLogin} setShowLogin={setShowLogin} />
       <Routes>
         <Route path="/" element={<Home/>} /> 
         <Route path="/signup" element={<Signup />} />
@@ -22,11 +25,7 @@ const App=()=> {
       </Routes>
     </div>
  
-      // <Routes>
-      //   <Route path="/signup" element={<Signup />} />
-      //   <Route path="/login" element={<Login/>}/>
-      // </Routes>
-   
+     
   );
 }
 

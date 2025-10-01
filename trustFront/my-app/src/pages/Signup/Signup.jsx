@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; 
 
-const Signup=()=> {
+const Signup=({setShowLogin})=> {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
@@ -42,6 +42,7 @@ const Signup=()=> {
     try {
       const res = await axios.post("http://localhost:5000/signup", form);//need to be changes as per api
       toast.success(res.data.message);
+      setShowLogin(true);
       navigate("/login"); 
     } catch (err) {
       toast.error(err.response?.data?.error || "Something went wrong");

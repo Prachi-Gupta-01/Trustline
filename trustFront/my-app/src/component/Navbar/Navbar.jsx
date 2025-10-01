@@ -1,9 +1,11 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom"; 
-import { SquarePen, CalendarSearch, Bell, CircleUser } from "lucide-react";  
+import { CircleUser } from "lucide-react";  
 // import assets from "../../assets/assets.js";
 
-const Navbar=()=> {
+const Navbar=(props)=> {
+    let showLogin=props.showLogin;
+    let setShowLogin=props.setShowLogin;
   return (
     <div className="navbar">
       <div className="navbar-logo">
@@ -14,10 +16,26 @@ const Navbar=()=> {
         <Link to="/contact" className="nav-option">Contact</Link>
         <Link to="/help" className="nav-option">Help</Link>
       </div>
-      <ul className="navbar-links">
-        <li><Link to="/signup" className="navbar-link">Signup</Link></li>
-        <li><Link to="/login" className="navbar-link">Login</Link></li>
-      </ul>
+      <div className="navbar-links">
+        {
+            !showLogin &&
+            <div><Link to="/signup" className="navbar-link">Signup</Link></div>
+        }
+        {
+            !showLogin &&
+            <div><Link to="/login" className="navbar-link">Login</Link></div>
+        }
+        {
+            showLogin &&
+            <div><Link to="/profile" className="navbar-link"><CircleUser size={20}/> Profile</Link></div>
+        }
+        {
+            showLogin &&
+            <div><Link to="/logout" className="navbar-link">Logout</Link></div>
+        }
+        
+        
+      </div>
     </div>
   );
 }
