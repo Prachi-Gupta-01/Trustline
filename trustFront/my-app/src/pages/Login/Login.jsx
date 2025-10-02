@@ -6,10 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; 
 
-const Login = ({setShowLogin}) => {
+const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    username: "",
+   
     email: "",
     password: "",
   });
@@ -22,18 +22,19 @@ const Login = ({setShowLogin}) => {
     e.preventDefault();
 
     
-    if (!form.username || !form.email || !form.password) {
+    if ( !form.email || !form.password) {
       toast.error("All fields are required");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/login", form);
+      const res = await axios.post("http://localhost:5000/api/auth/login", form);
       toast.success(res.data.message);
-      setShowLogin(true);
-      navigate("/dashboard"); 
+      navigate("/"); //change as per routes
     } catch (err) {
-      toast.error(err.response?.data?.error || "Login failed");
+      console.error("Login error:", err.response?.data || err.message);
+
+  toast.error(err.response?.data?.msg || "Login failed");
     }
   };
 
@@ -43,15 +44,8 @@ const Login = ({setShowLogin}) => {
         <ToastContainer position="top-center" autoClose={3000} />
         <h2 className="login-title">Login</h2>
         <form onSubmit={handleSubmit} className="login-form">
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={form.username}
-            onChange={handleChange}
-            required
-          />
-          <input
+            <label htmlFor="email">email</label>
+           <input
             type="email"
             name="email"
             placeholder="Email"
@@ -59,6 +53,7 @@ const Login = ({setShowLogin}) => {
             onChange={handleChange}
             required
           />
+            <label htmlFor="password">password</label>
           <input
             type="password"
             name="password"

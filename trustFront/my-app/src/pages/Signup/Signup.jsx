@@ -12,6 +12,7 @@ const Signup=({setShowLogin})=> {
     username: "",
     email: "",
     password: "",
+    confirm_password:"",
     phone: "",
     gender: "",
     address1: "",
@@ -19,7 +20,8 @@ const Signup=({setShowLogin})=> {
     city: "",
     state: "",
     pincode: "",
-    aadhar: "",
+    adhaar: "",
+    role:"",
   });
 
   const handleChange = (e) => {
@@ -38,14 +40,21 @@ const Signup=({setShowLogin})=> {
       toast.error("Pincode must be 6 digits");
       return;
     }
-
+    if(form.password!==form.confirm_password){
+      toast.error("password did not match")
+      return;
+    }
+    
+console.log(form)
     try {
-      const res = await axios.post("http://localhost:5000/signup", form);//need to be changes as per api
+      
+      const res = await axios.post("http://localhost:5000/api/auth/register", form);//need to be changes as per api
       toast.success(res.data.message);
-      setShowLogin(true);
-      navigate("/login"); 
+     // setShowLogin(true);
+      navigate("/"); 
     } catch (err) {
-      toast.error(err.response?.data?.error || "Something went wrong");
+      console.error("Axios error:", err.response?.data || err.message);
+  alert(err.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -55,23 +64,48 @@ const Signup=({setShowLogin})=> {
       <ToastContainer position="top-center" autoClose={3000} />
       <h2 className="signup-title">Signup</h2>
       <form onSubmit={handleSubmit} className="signup-form">
+          <label htmlFor="username">Username</label>
         <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
+
+          <label htmlFor="email">Email</label>
         <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required  />
+
+         <select  name="role" value={form.role} onChange={handleChange} required >
+
+          <option value="disabled">Select role</option>
+          <option value="citizen">citizen</option>
+          <option value="staff">staff</option>
+         
+        </select>
+          <label htmlFor="password">Password</label>
+        
         <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+
+          <label htmlFor="confirm_password">Confirm Password</label>
+        <input type="confirm_password" name="confirm_password" placeholder="XXXX" value={form.confirm_password} onChange={handleChange} required />
+        
+          <label htmlFor="phone">Phone No.</label>
         <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required  />
 
         <select name="gender" value={form.gender} onChange={handleChange} required >
-          <option value="Gender">Male</option>
+          <option value=" disabled">gender</option>
+          <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
         </select>
 
+          <label htmlFor="address1">Address</label>
         <input type="text" name="address1" placeholder="Address Line 1" value={form.address1} onChange={handleChange} required />
         <input type="text" name="address2" placeholder="Address Line 2 (Optional)" value={form.address2} onChange={handleChange} />
+          <label htmlFor="city">City</label>
         <input type="text" name="city" placeholder="City" value={form.city} onChange={handleChange} required />
+          <label htmlFor="state">State</label>
         <input type="text" name="state" placeholder="State" value={form.state} onChange={handleChange} required  />
+          <label htmlFor="pincode">pincode</label>
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
-        <input type="text" name="aadhar" placeholder="Aadhar Number" value={form.aadhar} onChange={handleChange} required />
+
+          <label htmlFor="adhaar">Adhaar no.</label>
+        <input type="text" name="adhaar" placeholder="Aadhar Number" value={form.adhaar} onChange={handleChange} required />
 
         <button type="submit" className="signup-button">Signup</button>
 
