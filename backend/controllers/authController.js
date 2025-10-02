@@ -52,24 +52,25 @@ export const register = async (req, res) => {
 
     res.status(201).json({ msg: "User registered successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
-    //console.log(error);
+    console.log("signup error",err)
+    res.status(400).json({ error: err.message });
+   
   }
 };
 
 // login user
 export const login = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     //check if user exists
-    const user = await User.findOne({ email, username });
+    const user = await User.findOne({ email});
     if (!user) {
-      res.status(400).json({ msg: "User does not exist" });
+      return res.status(400).json({ msg: "User does not exist" });
     }
     //check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      res.status(400).json({ msg: "Invalid credentials" });
+       return res.status(400).json({ msg: "Invalid credentials" });
     }
     //generate JWT token'
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -85,6 +86,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log("error in auth,",err)
     res.status(500).json({ error: err.message });
   }
 };
