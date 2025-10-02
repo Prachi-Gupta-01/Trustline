@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; 
 
-const Login = () => {
+const Login = ({setShowLogin}) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
@@ -29,6 +30,7 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:5000/login", form);
       toast.success(res.data.message);
+      setShowLogin(true);
       navigate("/dashboard"); 
     } catch (err) {
       toast.error(err.response?.data?.error || "Login failed");
@@ -66,7 +68,11 @@ const Login = () => {
             required
           />
           <button type="submit" className="login-button">Login</button>
-        </form>
+
+           <p className="switch">
+           Don't have an account? <Link to="/Signup"> Register here</Link>
+          </p>
+          </form>
       </div>
     </div>
   );

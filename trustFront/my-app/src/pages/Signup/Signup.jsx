@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; 
 
-const Signup=()=> {
+const Signup=({setShowLogin})=> {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
@@ -18,7 +19,7 @@ const Signup=()=> {
     city: "",
     state: "",
     pincode: "",
-    itc: "",
+    aadhar: "",
   });
 
   const handleChange = (e) => {
@@ -41,6 +42,7 @@ const Signup=()=> {
     try {
       const res = await axios.post("http://localhost:5000/signup", form);//need to be changes as per api
       toast.success(res.data.message);
+      setShowLogin(true);
       navigate("/login"); 
     } catch (err) {
       toast.error(err.response?.data?.error || "Something went wrong");
@@ -72,6 +74,10 @@ const Signup=()=> {
       <input type="text" name="aadhar no." placeholder="Aadhar Number" value={form.itc} onChange={handleChange} required />
 
         <button type="submit" className="signup-button">Signup</button>
+
+        <p className="switch">
+          Already registered? <Link to="/Login"> Login here</Link>
+        </p>
       </form>
     </div>
     </div>
