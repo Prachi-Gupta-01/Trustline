@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectdB } from "./config/db.js";
 import authRoute from "./routes/authRoute.js";
+import complaintRoutes from "./routes/complaintRoute.js";
 dotenv.config();
 connectdB();
 
@@ -13,6 +14,7 @@ app.use(express.json()); // parse incoming JSON requests
 
 //routes
 app.use("/api/auth", authRoute);
+app.use("/api", complaintRoutes);
 
 app.get("/", (req, res) => {
   res.send("Trustline is active!");

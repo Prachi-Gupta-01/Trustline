@@ -103,9 +103,13 @@ console.log(form)
         <input type="text" name="state" placeholder="State" value={form.state} onChange={handleChange} required  />
           <label htmlFor="pincode">pincode</label>
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
+<<<<<<< HEAD
 
           <label htmlFor="adhaar">Adhaar no.</label>
         <input type="text" name="adhaar" placeholder="Aadhar Number" value={form.adhaar} onChange={handleChange} required />
+=======
+      <input type="text" name="aadhar no." placeholder="Aadhar Number" value={form.itc} onChange={handleChange} required />
+>>>>>>> 48870449d28604fb249cb3ae46b707d1aed25be9
 
         <button type="submit" className="signup-button">Signup</button>
 
