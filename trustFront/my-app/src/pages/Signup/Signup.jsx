@@ -69,7 +69,7 @@ const Signup=()=> {
         <input type="text" name="city" placeholder="City" value={form.city} onChange={handleChange} required />
         <input type="text" name="state" placeholder="State" value={form.state} onChange={handleChange} required  />
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
-        <input type="text" name="aadhar no." placeholder="Aadhar Number" value={form.itc} onChange={handleChange} required />
+      <input type="text" name="aadhar no." placeholder="Aadhar Number" value={form.itc} onChange={handleChange} required />
 
         <button type="submit" className="signup-button">Signup</button>
       </form>
