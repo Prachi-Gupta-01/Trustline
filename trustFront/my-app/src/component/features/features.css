@@ -1,0 +1,30 @@
+.features{
+    display: flex;
+    background-color: #F3F4F6;
+    margin-top: 15px;
+}
+.feature-left{
+    margin-top:20px;
+    margin-left: 20px;
+    width: 60%;
+    padding-left:20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    
+}
+.fb{
+    display: flex;
+    gap: 25px;
+}
+.f-box{
+  width:180px;
+  height: 220px;
+  padding: 20px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1e3a8a, #152342); /* gradient blue */
+  color: white;
+  box-shadow: -7px 0px 7px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
