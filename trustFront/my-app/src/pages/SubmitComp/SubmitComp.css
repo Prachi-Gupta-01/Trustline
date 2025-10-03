@@ -1,0 +1,98 @@
+/* Container */
+.complaint-form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px 30px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.form-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+
+.complaint-form .form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.complaint-form label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
+}
+.required-field::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+
+
+.complaint-form input,
+.complaint-form textarea,
+.complaint-form select {
+  padding: 12px;
+  border: 1.5px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.25s ease-in-out;
+  background-color: #fafafa;
+}
+
+.complaint-form input:focus,
+.complaint-form textarea:focus,
+.complaint-form select:focus {
+  border-color: #3498db;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+
+.complaint-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1e3a8a;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background:  #0b466d;
+
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 600px) {
+  .complaint-form-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .form-title {
+    font-size: 22px;
+  }
+}
