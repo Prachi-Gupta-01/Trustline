@@ -3,53 +3,113 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #fff;
+  min-height: 100vh;
+  background: #f4f7fb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Inner form box */
+
 .login-form-box {
   width: 100%;
-  max-width: 500px;
-  padding: 40px;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  padding: 30px 25px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* Title */
 .login-title {
   text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c3e50;
   margin-bottom: 25px;
-  font-size: 28px;
+}
+
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 12px;
+  color: #34495e;
+  font-size: 14px;
+}
+
+.login-form input {
+  padding: 12px;
+  border: 1.5px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.25s ease-in-out;
+  background-color: #fafafa;
+}
+.required-field::after {
+  content: " *";
+  color: red;
   font-weight: bold;
 }
 
-/* All inputs inside the form */
-.login-form input {
-  padding: 12px;
-  margin: 10px 0;
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
+.login-form input:focus {
+  border-color: #3498db;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
 }
 
-/* Button styling */
+
 .login-button {
+  margin-top: 20px;
   padding: 14px;
-  margin-top: 15px;
-  width: 100%;
-  background-color: #4CAF50;
+  background:#1e3a8a;
   color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 6px;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #45a049;
+  background:  #0b466d;
+}
+
+.login-button:active {
+  transform: translateY(1px);
+}
+
+
+.switch {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: #555;
+}
+
+.switch a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.switch a:hover {
+  color: #1f6391;
+}
+
+
+@media (max-width: 600px) {
+  .login-form-box {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .login-title {
+    font-size: 22px;
+  }
 }

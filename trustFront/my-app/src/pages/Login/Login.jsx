@@ -45,7 +45,7 @@ const Login = ({setShowLogin}) => {
         <ToastContainer position="top-center" autoClose={3000} />
         <h2 className="login-title">Login</h2>
         <form onSubmit={handleSubmit} className="login-form">
-            <label htmlFor="email">email</label>
+            <label className="required-field" htmlFor="email">email</label>
            <input
             type="email"
             name="email"
@@ -54,7 +54,7 @@ const Login = ({setShowLogin}) => {
             onChange={handleChange}
             required
           />
-            <label htmlFor="password">password</label>
+            <label className="required-field" htmlFor="password">password</label>
           <input
             type="password"
             name="password"
