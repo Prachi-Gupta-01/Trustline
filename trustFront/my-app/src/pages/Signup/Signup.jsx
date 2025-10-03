@@ -52,6 +52,8 @@ console.log(form)
       toast.success(res.data.message);
      // setShowLogin(true);
       navigate("/"); 
+      setShowLogin(true);
+      alert("Registered successfully");
     } catch (err) {
       console.error("Axios error:", err.response?.data || err.message);
   alert(err.response?.data?.message || "Something went wrong");

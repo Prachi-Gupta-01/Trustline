@@ -17,8 +17,8 @@ const App=()=> {
       <Navbar showLogin={showLogin} setShowLogin={setShowLogin} />
       <Routes>
         <Route path="/" element={<Home/>} /> 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup setShowLogin={setShowLogin} />} />
+        <Route path="/login" element={<Login setShowLogin={setShowLogin}/>}/>
         <Route path="/submit complaint" element={<SubmitComp/>}/>
         <Route path="/track" element={<Track/>}/>
         <Route path="/notifications" element={<Notify/>}/>

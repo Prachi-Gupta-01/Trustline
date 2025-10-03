@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css"; 
 
-const Login = () => {
+const Login = ({setShowLogin}) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
    
@@ -31,6 +31,7 @@ const Login = () => {
       const res = await axios.post("http://localhost:5000/api/auth/login", form);
       toast.success(res.data.message);
       navigate("/"); //change as per routes
+      setShowLogin(true);
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
 
