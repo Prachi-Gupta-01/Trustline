@@ -66,49 +66,55 @@ console.log(form)
       <ToastContainer position="top-center" autoClose={3000} />
       <h2 className="signup-title">Signup</h2>
       <form onSubmit={handleSubmit} className="signup-form">
-          <label htmlFor="username">Username</label>
+          <label className="required-field" htmlFor="username">Username</label>
         <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
 
-          <label htmlFor="email">Email</label>
+          <label  className="required-field" htmlFor="email">Email</label>
         <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required  />
 
+          <label className="required-field" htmlFor="password">Password</label>
+        
+        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+
+          <label className="required-field" htmlFor="confirm_password">Confirm Password</label>
+        <input type="confirm_password" name="confirm_password" placeholder="XXXX" value={form.confirm_password} onChange={handleChange} required />
+        
+        
+<label  className="required-field" htmlFor="role">Role</label>
          <select  name="role" value={form.role} onChange={handleChange} required >
 
-          <option value="disabled">Select role</option>
+          <option value="disabled">--Select role--</option>
           <option value="citizen">citizen</option>
           <option value="staff">staff</option>
          
         </select>
-          <label htmlFor="password">Password</label>
-        
-        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-
-          <label htmlFor="confirm_password">Confirm Password</label>
-        <input type="confirm_password" name="confirm_password" placeholder="XXXX" value={form.confirm_password} onChange={handleChange} required />
-        
-          <label htmlFor="phone">Phone No.</label>
+          <label className="required-field" htmlFor="phone">Phone No.</label>
         <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required  />
 
+  <label className="required-field" htmlFor="gender">Gender</label>
         <select name="gender" value={form.gender} onChange={handleChange} required >
-          <option value=" disabled">gender</option>
+          <option value=" disabled">--Select Gender--</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
         </select>
 
-          <label htmlFor="address1">Address</label>
+          <label className="required-field" htmlFor="address1">Address</label>
         <input type="text" name="address1" placeholder="Address Line 1" value={form.address1} onChange={handleChange} required />
         <input type="text" name="address2" placeholder="Address Line 2 (Optional)" value={form.address2} onChange={handleChange} />
-          <label htmlFor="city">City</label>
+          <label className="required-field" htmlFor="city">City</label>
         <input type="text" name="city" placeholder="City" value={form.city} onChange={handleChange} required />
-          <label htmlFor="state">State</label>
+
+          <label className="required-field" htmlFor="state">State</label>
+
         <input type="text" name="state" placeholder="State" value={form.state} onChange={handleChange} required  />
-          <label htmlFor="pincode">pincode</label>
+
+          <label className="required-field" htmlFor="pincode">pincode</label>
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
 
 
-          <label htmlFor="adhaar">Adhaar no.</label>
-        <input type="text" name="adhaar" placeholder="Aadhar Number" value={form.adhaar} onChange={handleChange} required />
+          <label className="required-field" htmlFor="adhaar">Adhaar no.</label>
+        <input type="text" name="adhaar" placeholder="Adhaar Number" value={form.adhaar} onChange={handleChange} required />
 
 
 
