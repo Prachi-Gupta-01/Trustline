@@ -30,6 +30,8 @@ const Login = ({setShowLogin}) => {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", form);
       toast.success(res.data.message);
+        localStorage.setItem("token", res.data.token);
+
       navigate("/"); //change as per routes
       setShowLogin(true);
     } catch (err) {

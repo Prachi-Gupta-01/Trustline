@@ -17,11 +17,17 @@ const SubmitComp = () => {
   };
 
   const handleSubmit = async (e) => {
+    const token = localStorage.getItem("token");
+   // console.log("Token on submit:", token);
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/complaints", {
+      const res = await axios.post("http://localhost:5000/api/complaints", {
         ...formData,
         submittedBy: "USER_ID_HERE", // Replace with actual logged-in user
+      },{
+        headers:{
+          Authorization:`Bearer ${token}`,
+        }
       });
 
       toast.success(" Complaint submitted successfully!");
