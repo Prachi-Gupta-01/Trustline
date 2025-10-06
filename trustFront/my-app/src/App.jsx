@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home.jsx";
 import SubmitComp from "./pages/SubmitComp/SubmitComp.jsx";
 import Track from "./pages/Track/Track.jsx";
 import Notify from "./pages/Notify/Notify.jsx";
+import About from "./component/About/About.jsx";
 import { useState } from "react";
 const App=()=> {
   const [showLogin,setShowLogin]=useState(false);
@@ -22,6 +23,7 @@ const App=()=> {
         <Route path="/submit complaint" element={<SubmitComp/>}/>
         <Route path="/track" element={<Track/>}/>
         <Route path="/notifications" element={<Notify/>}/>
+        <Route path="/about" element={<About/>}/>
       </Routes>
     </div>
  
