@@ -2,6 +2,7 @@ import Header from "../../component/header/header";
 import "./Home.css";
 import About from "../../component/About/About";
 import Features from "../../component/features/features";
+import Footer from "../../component/Footer/Footer";
 
 
 
@@ -11,6 +12,7 @@ const Home=()=> {
             <Header/>
             <About/>
             <Features/>
+            <Footer/>
         </div>
     )
 }
