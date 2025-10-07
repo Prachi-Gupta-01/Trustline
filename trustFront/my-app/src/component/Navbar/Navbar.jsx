@@ -38,7 +38,7 @@ const Navbar=(props)=> {
         }
         {
             showLogin &&
-            <div className="bb" onClick={()=>setShowLogin("false")}><Link to="/logout" className="navbar-link">Logout</Link></div>
+            <div className="bb" onClick={()=>setShowLogin(false)}><Link to="/" className="navbar-link">Logout</Link></div>
         }
         
         
