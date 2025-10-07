@@ -3,6 +3,7 @@ import "./Home.css";
 import About from "../../component/About/About";
 import Features from "../../component/features/features";
 import Footer from "../../component/Footer/Footer";
+import Contact from "../../component/Contact/Contact";
 
 
 
@@ -12,6 +13,7 @@ const Home=()=> {
             <Header/>
             <About/>
             <Features/>
+            <Contact/>
             <Footer/>
         </div>
     )
