@@ -19,6 +19,7 @@ img.logo{
     margin-top:10px;
     margin-left: 10px;
     background-color:#1e3a8a;
+    margin-right: 60px;
 }
 .lg{
     display: flex;
@@ -73,8 +74,9 @@ img.logo{
 
 .nav-options{
     display: flex;
-    gap: 25px;
+    gap: 27px;
     font-size:20px;
+    align-items: center;
     
 }
 .nav-option{

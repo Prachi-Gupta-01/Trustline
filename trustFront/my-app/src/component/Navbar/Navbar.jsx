@@ -19,11 +19,12 @@ const Navbar=(props)=> {
         </div>
       </Link>
       
-      <div className="nav-options">
-        <Link to="/contact" className="nav-option">Contact</Link>
-        <Link to="/help" className="nav-option">Help</Link>
-      </div>
+      
       <div className="navbar-links">
+        <div className="nav-options">
+          <Link to="/contact" className="nav-option">Contact</Link>
+          <Link to="/help" className="nav-option">Help</Link>
+        </div>
         {
             !showLogin &&
             <div  className="bb"><Link to="/signup" className="navbar-link" >Signup</Link></div>
