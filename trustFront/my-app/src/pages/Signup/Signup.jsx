@@ -20,9 +20,14 @@ const Signup=({setShowLogin})=> {
     city: "",
     state: "",
     pincode: "",
-    adhaar: "",
     role:"",
+    department:"",
   });
+
+  //states for otp verification 
+   const [otpSent, setOtpSent] = useState(false);
+  const [emailForOtp, setEmailForOtp] = useState("");
+  const [otp, setOtp] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,25 +50,43 @@ const Signup=({setShowLogin})=> {
       return;
     }
     
-console.log(form)
+
     try {
       
-      const res = await axios.post("http://localhost:5000/api/auth/register", form);//need to be changes as per api
-      toast.success(res.data.message);
-     // setShowLogin(true);
-      navigate("/"); 
-      setShowLogin(true);
-      alert("Registered successfully");
+      const res = await axios.post("http://localhost:5000/api/auth/register", form);
+      toast.success(res.data.message || "OTP sent to your email");
+      setEmailForOtp(form.email);
+      setOtpSent(true); //for otp form
     } catch (err) {
       console.error("Axios error:", err.response?.data || err.message);
-  alert(err.response?.data?.message || "Something went wrong");
+      toast.error(err.response?.data?.error || "Something went wrong");
     }
   };
+
+  //  Verify OTP
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
+        email: emailForOtp,
+        otp,
+      });
+      toast.success(res.data.message || "Verified successfully");
+      setShowLogin(true);
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "OTP verification failed");
+    }
+  };
+    
+  
 
   return (
     <div className="signup-container">
         <div className="signup-form-box">
       <ToastContainer position="top-center" autoClose={3000} />
+      {!otpSent?(
+        <>
       <h2 className="signup-title">Signup</h2>
       <form onSubmit={handleSubmit} className="signup-form">
           <label className="required-field" htmlFor="username">Username</label>
@@ -88,6 +111,22 @@ console.log(form)
           <option value="staff">staff</option>
          
         </select>
+
+        {/*extra fields for staff*/}
+        {form.role==="staff"&&(
+          <>
+          <label className="required-field" htmlFor="department">Department</label>
+          <select name="department" value={form.department} onChange={handleChange}required>
+           
+          <option value="disabled">--Select Department--</option>
+          <option value="electricity">Electricity</option>
+          <option value="water">Water</option>
+          <option value="road">Road</option>
+         
+          </select>
+
+          </>
+        )}
           <label className="required-field" htmlFor="phone">Phone No.</label>
         <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required  />
 
@@ -113,8 +152,7 @@ console.log(form)
         <input type="text" name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} required  />
 
 
-          <label className="required-field" htmlFor="adhaar">Adhaar no.</label>
-        <input type="text" name="adhaar" placeholder="Adhaar Number" value={form.adhaar} onChange={handleChange} required />
+         
 
 
 
@@ -124,6 +162,24 @@ console.log(form)
           Already registered? <Link to="/Login"> Login here</Link>
         </p>
       </form>
+      </>
+      ):(
+         <form onSubmit={handleVerifyOtp} className="otp-form">
+            <h2 >Verify OTP</h2>
+            <p>Enter the OTP sent to <strong>{emailForOtp}</strong></p>
+            <input
+              type="text"
+              name="otp"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
+            />
+            <button type="submit" className="signup-button">Verify OTP</button>
+          </form>
+        )
+}
+
     </div>
     </div>
   );
