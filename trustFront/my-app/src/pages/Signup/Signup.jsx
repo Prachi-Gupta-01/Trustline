@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Signup.css"; 
+import OtpVerify from "../../component/OtpVerify/OtpVerify";
 
 const Signup=({setShowLogin})=> {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Signup=({setShowLogin})=> {
   //states for otp verification 
    const [otpSent, setOtpSent] = useState(false);
   const [emailForOtp, setEmailForOtp] = useState("");
-  const [otp, setOtp] = useState("");
+  
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -63,23 +64,7 @@ const Signup=({setShowLogin})=> {
     }
   };
 
-  //  Verify OTP
-  const handleVerifyOtp = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
-        email: emailForOtp,
-        otp,
-      });
-      toast.success(res.data.message || "Verified successfully");
-      setShowLogin(true);
-      navigate("/login");
-    } catch (err) {
-      toast.error(err.response?.data?.error || "OTP verification failed");
-    }
-  };
-    
-  
+ 
 
   return (
     <div className="signup-container">
@@ -164,20 +149,23 @@ const Signup=({setShowLogin})=> {
       </form>
       </>
       ):(
-         <form onSubmit={handleVerifyOtp} className="otp-form">
-            <h2 >Verify OTP</h2>
-            <p>Enter the OTP sent to <strong>{emailForOtp}</strong></p>
-            <input
-              type="text"
-              name="otp"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              required
-            />
-            <button type="submit" className="signup-button">Verify OTP</button>
-          </form>
-        )
+        <OtpVerify 
+        email={emailForOtp}
+        onVerify={async (enteredOtp) => {
+              try {
+                const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
+                  email: emailForOtp,
+                  otp: enteredOtp
+                });
+                toast.success("registered successfully!");
+                setShowLogin(true);
+                navigate("/");
+              } catch (err) {
+                toast.error(err.response?.data?.error || "OTP verification failed");
+              }
+            }}
+        />
+      )
 }
 
     </div>
