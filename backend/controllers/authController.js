@@ -52,9 +52,8 @@ export const register = async (req, res) => {
 
     res.status(201).json({ msg: "User registered successfully" });
   } catch (err) {
-    console.log("signup error",err)
+    console.log("signup error", err);
     res.status(400).json({ error: err.message });
-   
   }
 };
 
@@ -63,21 +62,21 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     //check if user exists
-    const user = await User.findOne({ email});
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "User does not exist" });
     }
     //check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-       return res.status(400).json({ msg: "Invalid credentials" });
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
     //generate JWT token'
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "7d",
       }
     );
     res.json({
@@ -90,7 +89,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log("error in auth,",err)
+    console.log("error in auth,", err);
     res.status(500).json({ error: err.message });
   }
 };
