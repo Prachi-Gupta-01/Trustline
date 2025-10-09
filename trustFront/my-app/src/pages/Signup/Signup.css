@@ -125,7 +125,7 @@
   color: #1f6391;
 }
 
-/* Responsive tweaks */
+
 @media (max-width: 768px) {
   .signup-form-box {
     margin: 20px;
@@ -137,86 +137,5 @@
   }
   .form-row {
     flex-direction: column;
-  }
-}
-.otp-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  max-width: 420px;
-  margin: 40px auto;
- 
-}
-
-.otp-form h2 {
-  font-size: 1.8rem;
-  color: #2c3e50;
- 
-}
-.otp-form p {
-  font-size: 1rem;
-  color: #555;
-
-  text-align: center;
-}
-
-.otp-form h2 {
-  font-size: 1.8rem;
-  color: #2c3e50;
- 
-}
-
-.otp-form p {
-  font-size: 1rem;
-  color: #555;
- 
-  text-align: center;
-}
-
-
-
-.otp-form input {
-  width: 80%;
-  padding: 12px;
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  text-align: center;
-  border: 2px solid #ddd;
-  border-radius: 8px;
- 
-}
-
-
-.otp-form button {
-  margin-top: 20px;
-  padding: 10px 25px;
-  font-size: 1rem;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-}
-
-.otp-form button:hover {
-  background: #0056b3;
-}
-
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

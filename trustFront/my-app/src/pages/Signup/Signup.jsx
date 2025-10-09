@@ -23,6 +23,7 @@ const Signup=({setShowLogin})=> {
     pincode: "",
     role:"",
     department:"",
+    position:"",
   });
 
   //states for otp verification 
@@ -110,7 +111,19 @@ const Signup=({setShowLogin})=> {
          
           </select>
 
+          <label className="required-field" htmlFor="position" > Position</label>
+          <select name="position" value={form.position} onChange={handleChange}>
+            <option value="disabled">--Select Position--</option>
+            <option value="field staff">Field Staff</option>
+            <option value="junior engineer">Junior Engineer</option>
+            <option value="assistant engineer">Assistant Engineer</option>
+            <option value="supervisor">Supervisor</option>
+           
+          </select>
+
           </>
+
+         
         )}
           <label className="required-field" htmlFor="phone">Phone No.</label>
         <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required  />

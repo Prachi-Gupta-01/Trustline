@@ -10,6 +10,7 @@ const SubmitComp = () => {
     description: "",
     category: "",
     imageUrl: "",
+    location:"",
   });
 
   const handleChange = (e) => {
@@ -17,17 +18,11 @@ const SubmitComp = () => {
   };
 
   const handleSubmit = async (e) => {
-    const token = localStorage.getItem("token");
-   // console.log("Token on submit:", token);
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/complaints", {
+      const res = await axios.post("http://localhost:5000/api/auth/complaints", {
         ...formData,
-        submittedBy: "USER_ID_HERE", // Replace with actual logged-in user
-      },{
-        headers:{
-          Authorization:`Bearer ${token}`,
-        }
+        //submittedBy: "USER_ID_HERE", 
       });
 
       toast.success(" Complaint submitted successfully!");
@@ -91,6 +86,21 @@ const SubmitComp = () => {
           </select>
         </div>
 
+          
+        <div className="form-group">
+          <label className="required-field">Location</label>
+
+          <textarea  name="location"
+            value={formData.location}
+            onChange={handleChange}
+            rows="2"
+            required
+          >
+          
+          </textarea>
+        </div>
+
+
         
         <div className="form-group">
           <label>Image URL (optional)</label>
@@ -103,6 +113,7 @@ const SubmitComp = () => {
           />
         </div>
 
+       
         
         <button type="submit" className="submit-btn">
           Submit Complaint
