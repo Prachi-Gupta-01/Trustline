@@ -56,7 +56,23 @@ const userSchema = new mongoose.Schema(
       enum: ["citizen", "staff"],
       default: "citizen",
     },
+  
+   department: {
+      type: String,
+      enum: ["electricity", "water", "road"],
+      required: function () {
+        return this.role === "staff";
+      },
+    },
+    position: {
+      type: String,
+      enum: ["field staff", "junior engineer", "assistant engineer", "supervisor"],
+      required: function () {
+        return this.role === "staff";
+      },
+    },
   },
+  
   { timestamps: true }
 );
 export const User = mongoose.model("User", userSchema);

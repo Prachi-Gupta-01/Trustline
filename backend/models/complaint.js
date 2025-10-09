@@ -44,6 +44,10 @@ const complaintSchema = new mongoose.Schema(
     imageUrl: {
       type: String,
     },
+    location:{
+      type:String,
+      required:true,
+    },
     submittedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
