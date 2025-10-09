@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import "./OtpVerify.css"; 
 
-const OtpVerify = ({ email, onVerify }) => {
+const OtpVerify = ({ email, onVerify ,onResend,onBack}) => {
   const [otp, setOtp] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onVerify(otp); 
+  };
+
+  
+  const handleResend = () => {
+    if (onResend) {
+      onResend(); 
+    }
+  };
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack(); 
+    }
   };
 
   return (
@@ -23,6 +36,14 @@ const OtpVerify = ({ email, onVerify }) => {
         />
         <button type="submit" className="otp-button">Verify OTP</button>
       </form>
+      <div className="otp-actions">
+        <button type="button" className="otp-back" onClick={handleBack}>
+          Back
+        </button>
+        <button type="button" className="otp-resend" onClick={handleResend}>
+          Resend OTP
+        </button>
+      </div>
     </div>
   );
 };

@@ -160,7 +160,7 @@ const Signup=({setShowLogin})=> {
           Already registered? <Link to="/Login"> Login here</Link>
         </p>
       </form>
-      </>
+      </>//otp verification form
       ):(
         <OtpVerify 
         email={emailForOtp}
@@ -177,6 +177,20 @@ const Signup=({setShowLogin})=> {
                 toast.error(err.response?.data?.error || "OTP verification failed");
               }
             }}
+             onResend={async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/resend-otp", {
+        email: emailForOtp
+      });
+      toast.success("OTP resent successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to resend OTP");
+    }
+  }}
+  onBack={() => {
+    setOtpSent(false);
+    navigate('/signup') // go back to signup form
+  }}
         />
       )
 }

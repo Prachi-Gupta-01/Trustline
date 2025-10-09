@@ -1,3 +1,4 @@
+/* Container */
 .otp-form {
   display: flex;
   flex-direction: column;
@@ -6,69 +7,95 @@
   background: #ffffff;
   padding: 40px 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
   max-width: 420px;
-  margin: 40px auto;
- 
+  margin: 50px auto;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-
-.otp-form p {
-  font-size: 1rem;
-  color: #555;
-
-  text-align: center;
-}
-
+/* Headings */
 .otp-form h2 {
-  font-size: 1.8rem;
-  color: #2c3e50;
- 
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .otp-form p {
   font-size: 1rem;
   color: #555;
- 
   text-align: center;
+  margin-bottom: 25px;
 }
 
-
-
+/* Input field */
 .otp-form input {
-  width: 80%;
-  padding: 12px;
+  width: 90%;
+  padding: 14px;
   font-size: 1.1rem;
   letter-spacing: 2px;
   text-align: center;
   border: 2px solid #ddd;
-  border-radius: 8px;
- 
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
 }
 
+.otp-form input:focus {
+  border-color: #1e3a8a;
+  box-shadow: 0 0 8px rgba(30, 58, 138, 0.3);
+  outline: none;
+}
 
-.otp-form button {
-    
-
+/* Main buttons (Verify OTP) */
+.otp-form button.otp-button {
+  width: 60%;
   padding: 14px;
-  background:#1e3a8a;
+  background: #1e3a8a;
   color: white;
   font-size: 16px;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  align-self: center;
   transition: all 0.3s ease;
 }
 
-
-.otp-form button:hover {
+.otp-form button.otp-button:hover {
   background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 86, 179, 0.3);
 }
 
+/* Action buttons container (Back / Resend) */
+.otp-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 20px;
+}
 
+/* Back / Resend buttons */
+.otp-back,
+.otp-resend {
+  background: none;
+  border: 2px solid #3498db;
+  color: #3498db;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
 
+.otp-back:hover,
+.otp-resend:hover {
+  background: #3498db;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Fade-in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -77,5 +104,24 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .otp-form {
+    padding: 30px 20px;
+  }
+  .otp-form input {
+    width: 100%;
+  }
+  .otp-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .otp-back,
+  .otp-resend {
+    width: 100%;
+    text-align: center;
   }
 }

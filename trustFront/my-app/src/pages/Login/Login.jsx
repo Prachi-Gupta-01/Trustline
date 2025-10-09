@@ -88,7 +88,7 @@ const Login = ({ setShowLogin }) => {
             <button type="submit" className="login-button">Login</button>
 
             <p className="switch">
-              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setForgotPasswordMode(true)}>
+              <span style={{ color: "blue", cursor: "pointer" }} onClick={() => setForgotPassword(true)}>
                 Forgot Password?
               </span>
             </p>
@@ -142,6 +142,17 @@ const Login = ({ setShowLogin }) => {
                   toast.error(err.response?.data?.error || "OTP verification failed");
                 }
               }}
+              onBack={() => {
+    setOtpSent(false); // go back to email input
+  }}
+  onResend={async () => {
+    try {
+      await axios.post("http://localhost:5000/api/auth/forgot-password", { email: emailForOtp });
+      toast.success("OTP resent successfully");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Failed to resend OTP");
+    }
+  }}
             />
             <div className="otp-new-password">
               <input
