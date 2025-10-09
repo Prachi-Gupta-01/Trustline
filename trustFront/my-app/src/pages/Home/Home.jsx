@@ -3,7 +3,8 @@ import "./Home.css";
 import About from "../../component/About/About";
 import Features from "../../component/features/features";
 import Footer from "../../component/Footer/Footer";
-import Contact from "../../component/Contact/Contact";
+
+import FAQSection from "../../component/FAQ/FAQ";
 
 
 
@@ -13,7 +14,7 @@ const Home=()=> {
             <Header/>
             <About/>
             <Features/>
-            <Contact/>
+            <FAQSection/>   
             <Footer/>
         </div>
     )

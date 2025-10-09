@@ -22,7 +22,7 @@ const Navbar=(props)=> {
       
       <div className="navbar-links">
         <div className="nav-options">
-          <Link to="/contact" className="nav-option">Contact</Link>
+          <Link to="/ContactUs" className="nav-option">Contact Us</Link>
           <Link to="/help" className="nav-option">Help</Link>
         </div>
         {
