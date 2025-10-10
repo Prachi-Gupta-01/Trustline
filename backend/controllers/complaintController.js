@@ -155,7 +155,7 @@ export const trackComplaint = async (req, res) => {
     if (!complaint) {
       return res.status(404).json({ msg: "Complaint not found" });
     }
-    res.status(200).json(complaint);
+    res.status(200).json({complaint});
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
