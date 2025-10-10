@@ -1,9 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { StoreContext } from "../../context/StoreContext";
 import "./Dashboard.css";
 
 const StaffDashboard = () => {
-  const [staff, setStaff] = useState(null);
+  // ✅ Directly extract all user info from StoreContext
+  const {
+    username,
+    email,
+    role,
+    department,
+    position,
+    phone,
+    loading,
+    user,
+  } = useContext(StoreContext);
+
   const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [selectedComplaint, setSelectedComplaint] = useState(null);
@@ -11,36 +23,39 @@ const StaffDashboard = () => {
     search: "",
     category: "",
     priority: "",
-    location: ""
+    location: "",
   });
 
-  // 🔹 Fetch Staff details and complaints
+  //  Wait until user data is available
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    if (loading) return; // wait until user info is loaded
+    if (role !== "Staff") return; // only fetch for staff
 
-    // Fetch logged-in staff details
-    axios
-      .get("http://localhost:5000/api/user/me", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then((res) => setStaff(res.data.user))
-      .catch((err) => console.error("Error fetching staff:", err));
+    const fetchComplaints = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:5000/api/complaints", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-    // Fetch complaints
-    axios
-      .get("http://localhost:5000/api/complaints", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then((res) => {
-        setComplaints(res.data);
-        setFilteredComplaints(res.data);
-      })
-      .catch((err) => console.error("Error fetching complaints:", err));
-  }, []);
+        // Filter only complaints assigned to this staff
+        const assigned = res.data.filter(
+          (complaint) => complaint.assignedTo === email
+        );
 
-  // 🔹 Filter complaints
+        setComplaints(assigned);
+        setFilteredComplaints(assigned);
+      } catch (err) {
+        console.error("Error fetching complaints:", err);
+      }
+    };
+
+    fetchComplaints();
+  }, [loading, email, role]);
+
+  // ✅ Filter complaints dynamically
   useEffect(() => {
-    let result = complaints.filter(
+    const result = complaints.filter(
       (c) =>
         c.category.toLowerCase().includes(filters.category.toLowerCase()) &&
         c.priority.toLowerCase().includes(filters.priority.toLowerCase()) &&
@@ -51,7 +66,7 @@ const StaffDashboard = () => {
     setFilteredComplaints(result);
   }, [filters, complaints]);
 
-  // 🔹 Update Complaint Status
+  // ✅ Update complaint status
   const updateStatus = async (id, newStatus) => {
     const token = localStorage.getItem("token");
     try {
@@ -61,29 +76,34 @@ const StaffDashboard = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update UI
       setComplaints((prev) =>
         prev.map((c) => (c._id === id ? { ...c, status: newStatus } : c))
       );
-      alert(`Complaint status updated to ${newStatus}`);
+      alert(`Complaint updated to "${newStatus}"`);
       setSelectedComplaint(null);
     } catch (err) {
       console.error("Error updating status:", err);
     }
   };
 
+  // ✅ Handle loading or missing user
+  if (loading) return <p>Loading your dashboard...</p>;
+  if (role !== "staff") return <p>Access Denied: Staff Only.</p>;
+
   return (
     <div className="staff-dashboard">
-      {/* Staff Header */}
+      {/* ===== STAFF INFO SECTION ===== */}
       <div className="staff-header">
-        <h1>Welcome, {staff?.name || "Staff Member"} 👋</h1>
+        <h1>Welcome, {username || "Staff"} 👋</h1>
         <p>
-          <strong>Department:</strong> {staff?.department || "N/A"} <br />
-          <strong>Position:</strong> {staff?.position || "N/A"}
+          <strong>Email:</strong> {email || "N/A"} <br />
+          <strong>Department:</strong> {department || "N/A"} <br />
+          <strong>Position:</strong> {position || "N/A"}<br/>
+          <strong>Phone No.:</strong> {phone || "N/A"}
         </p>
       </div>
 
-      {/* Filters */}
+      {/* ===== FILTER SECTION ===== */}
       <div className="filter-bar">
         <input
           type="text"
@@ -93,6 +113,7 @@ const StaffDashboard = () => {
         />
 
         <select
+          value={filters.category}
           onChange={(e) => setFilters({ ...filters, category: e.target.value })}
         >
           <option value="">All Categories</option>
@@ -102,6 +123,7 @@ const StaffDashboard = () => {
         </select>
 
         <select
+          value={filters.priority}
           onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
         >
           <option value="">All Priorities</option>
@@ -112,17 +134,17 @@ const StaffDashboard = () => {
 
         <input
           type="text"
-          placeholder="Filter by Location"
+          placeholder="Filter by location"
           value={filters.location}
           onChange={(e) => setFilters({ ...filters, location: e.target.value })}
         />
       </div>
 
-      {/* Complaints List */}
+      {/* ===== ASSIGNED COMPLAINTS TABLE ===== */}
       <div className="complaints-list">
-        <h2>Complaints Assigned</h2>
+        <h2>Assigned Complaints</h2>
         {filteredComplaints.length === 0 ? (
-          <p>No complaints found.</p>
+          <p>No complaints assigned to you yet.</p>
         ) : (
           <table>
             <thead>
@@ -132,20 +154,20 @@ const StaffDashboard = () => {
                 <th>Priority</th>
                 <th>Location</th>
                 <th>Status</th>
-                <th>View</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredComplaints.map((complaint) => (
-                <tr key={complaint._id}>
-                  <td>{complaint._id.slice(0, 6)}</td>
-                  <td>{complaint.category}</td>
-                  <td>{complaint.priority}</td>
-                  <td>{complaint.location}</td>
-                  <td>{complaint.status}</td>
+              {filteredComplaints.map((c) => (
+                <tr key={c._id}>
+                  <td>{c._id.slice(0, 6)}</td>
+                  <td>{c.category}</td>
+                  <td>{c.priority}</td>
+                  <td>{c.location}</td>
+                  <td>{c.status}</td>
                   <td>
                     <button
-                      onClick={() => setSelectedComplaint(complaint)}
+                      onClick={() => setSelectedComplaint(c)}
                       className="view-btn"
                     >
                       View
@@ -158,29 +180,17 @@ const StaffDashboard = () => {
         )}
       </div>
 
-      {/* Complaint Details Modal */}
+      {/* ===== POPUP COMPLAINT DETAILS ===== */}
       {selectedComplaint && (
         <div className="complaint-details">
           <div className="details-box">
             <h3>Complaint Details</h3>
-            <p>
-              <strong>ID:</strong> {selectedComplaint._id}
-            </p>
-            <p>
-              <strong>Category:</strong> {selectedComplaint.category}
-            </p>
-            <p>
-              <strong>Priority:</strong> {selectedComplaint.priority}
-            </p>
-            <p>
-              <strong>Location:</strong> {selectedComplaint.location}
-            </p>
-            <p>
-              <strong>Description:</strong> {selectedComplaint.description}
-            </p>
-            <p>
-              <strong>Status:</strong> {selectedComplaint.status}
-            </p>
+            <p><strong>ID:</strong> {selectedComplaint._id}</p>
+            <p><strong>Category:</strong> {selectedComplaint.category}</p>
+            <p><strong>Priority:</strong> {selectedComplaint.priority}</p>
+            <p><strong>Location:</strong> {selectedComplaint.location}</p>
+            <p><strong>Description:</strong> {selectedComplaint.description}</p>
+            <p><strong>Status:</strong> {selectedComplaint.status}</p>
 
             {selectedComplaint.status === "Pending" && (
               <button

@@ -1,8 +1,7 @@
 .about{
     width: 100%;
-    height:500px;
+    height:auto;
     background-color: #F3F4F6;
-
     margin-top: 10px;
     display: flex;
     flex-direction:row;
@@ -53,6 +52,7 @@
     padding-left:10px;
     
 }
+
 .aboutphoto{
     width:250px;
     height: auto;
@@ -86,5 +86,17 @@
     100%{
         filter: grayscale(0.3);
         transform: scale(1.1);
+        
+    }
+}
+
+@media (max-width:600px){
+    .about{
+        flex-direction: column;
+        height: auto;
+        font-size: 1.1rem;
+    }
+    .aboutphoto{
+        width: 120px;
     }
 }
