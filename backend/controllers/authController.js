@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { sendOtpEmail } from "../utils/sendOtpEmail.js";
 //register user
 export const register = async (req, res) => {
   try {
@@ -199,6 +200,93 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     console.log("error in auth,", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+//logout
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+    return res.status(200).json({ msg: "Logged out successfully" });
+  } catch (err) {
+    console.log("logout error", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+export const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    user.otpExpires = Date.now() + 10 * 60 * 1000; // 10 mins
+    await user.save();
+    //send otp to email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify your email-OTP Code",
+      text: `Hi , your OTP is ${otp}. It will expires in 10minutes.`,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+
+      res.status(201).json({
+        msg: "Otp sent to your email.Please verify to complete registration.",
+      });
+    } catch (emailErr) {
+      console.log("Email sending error, user not saved", emailErr);
+      res
+        .status(500)
+        .json({ error: "Failed to send OTP email. Please try again." });
+    }
+  } catch (err) {
+    console.log("error in request password reset", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+//verify otp for password reset
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+    if (!user.otp) {
+      return res.status(400).json({ msg: "Please request a new OTP" });
+    }
+    if (user.otp !== otp.toString()) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({ msg: "OTP has expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+    res.status(200).json({ msg: "Password reset successful" });
+  } catch (err) {
+    console.log("error in reset password", err);
     res.status(500).json({ error: err.message });
   }
 };
