@@ -73,6 +73,11 @@ const complaintSchema = new mongoose.Schema(
         at: { type: Date, default: Date.now },
       },
     ],
+    trackingId: {
+      type: String,
+      unique: true,
+      required: true,
+    },
   },
   { timestamps: true }
 );

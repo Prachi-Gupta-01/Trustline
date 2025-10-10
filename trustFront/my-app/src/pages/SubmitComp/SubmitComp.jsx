@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./SubmitComp.css";
 
 const SubmitComp = () => {
+  const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -18,15 +19,21 @@ const SubmitComp = () => {
 
   const handleSubmit = async (e) => {
     const token = localStorage.getItem("token");
-   // console.log("Token on submit:", token);
+   
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/complaints", {
-        ...formData,
-        submittedBy: "USER_ID_HERE", // Replace with actual logged-in user
-      },{
+      const form = new FormData();
+      form.append("title",formData.title);
+      form.append("description",formData.description);
+      form.append("category",formData.category);
+      if(image){
+        form.append("image",image);
+      }
+      
+      const res = await axios.post("http://localhost:5000/api/complaints", form,{
         headers:{
           Authorization:`Bearer ${token}`,
+          "Content-Type":"multipart/form-data"
         }
       });
 
@@ -35,6 +42,7 @@ const SubmitComp = () => {
 
       console.log(res.data);
       setFormData({ title: "", description: "", category: "", imageUrl: "" }); // clear form
+      setImage(null);
     } catch (error) {
       console.error(error);
       toast.error("Failed to submit complaint!");
@@ -92,7 +100,7 @@ const SubmitComp = () => {
         </div>
 
         
-        <div className="form-group">
+ {/*       <div className="form-group">
           <label>Image URL (optional)</label>
           <input
             type="text"
@@ -102,6 +110,15 @@ const SubmitComp = () => {
             placeholder="Paste image link"
           />
         </div>
+*/}
+      <label htmlFor="image">Upload Image (optional)</label>
+<input
+  type="file"
+  name="image"
+  id="image"
+  accept="image/*"
+  onChange={(e) => setImage(e.target.files[0])}
+/>
 
         
         <button type="submit" className="submit-btn">

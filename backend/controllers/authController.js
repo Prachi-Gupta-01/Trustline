@@ -217,6 +217,7 @@ export const logout = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+//forgot password - request otp
 export const requestPasswordReset = async (req, res) => {
   try {
     const { email } = req.body;
