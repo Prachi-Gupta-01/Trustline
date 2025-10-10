@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./SubmitComp.css";
 
@@ -12,6 +13,8 @@ const SubmitComp = () => {
     category: "",
     location: "",
   });
+  const [trackingId, setTrackingId] = useState(null);
+  const navigate=useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,6 +44,9 @@ const SubmitComp = () => {
       toast.success("Complaint submitted successfully!");
       console.log(res.data);
 
+      //storing tracking id
+     setTrackingId(res.data.complaint.trackingId);
+
       // Clear form
       setFormData({ title: "", description: "", category: "", location: "" });
       setImage(null);
@@ -49,10 +55,16 @@ const SubmitComp = () => {
       toast.error("Failed to submit complaint!");
     }
   };
+   const handleCopy = () => {
+    navigator.clipboard.writeText(trackingId);
+    toast.info("Tracking ID copied!");
+  };
 
   return (
     <div className="complaint-form-container">
       <ToastContainer position="top-center" autoClose={3000} />
+      {!trackingId?(
+        <>
       <h2 className="form-title">Submit a Complaint</h2>
       <form onSubmit={handleSubmit} className="complaint-form">
         <div className="form-group">
@@ -121,6 +133,25 @@ const SubmitComp = () => {
           Submit Complaint
         </button>
       </form>
+      </>
+      ):(
+ //Popup for tracking ID 
+    
+      
+        <div className="popup">
+          <div className="popup-message">
+            <h3>Complaint Submitted!</h3>
+            <p>Your Tracking ID:</p>
+            <strong>{trackingId}</strong>
+            <div className="popup-button">
+              <button onClick={handleCopy}>Copy ID</button>
+              <button onClick={() => navigate("/")}>Close</button>
+            </div>
+            <p className="track-message">Use this ID to track your complaint.</p>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
