@@ -6,17 +6,20 @@ import {
   addComment,
   updateComplaintStatus,
   assignStaffToComplaint,
+  trackComplaint,
 } from "../controllers/complaintController.js";
 import {
   authenticateUser,
   authorizeRoles,
 } from "../middlewares/authMiddleware.js";
+import { upload } from "../middlewares/uploadMiddleware.js";
 const router = express.Router();
 
 router.post(
   "/complaints",
   authenticateUser,
   authorizeRoles("citizen"),
+  upload.single("image"),
   createComplaint
 );
 //view their own complaints
@@ -54,4 +57,6 @@ router.put(
   authorizeRoles("staff"),
   assignStaffToComplaint
 );
+//track complaint by tracking id - public
+router.get("/complaints/track/:trackingId", trackComplaint);
 export default router;

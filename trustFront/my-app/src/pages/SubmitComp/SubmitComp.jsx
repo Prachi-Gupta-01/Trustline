@@ -5,12 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import "./SubmitComp.css";
 
 const SubmitComp = () => {
+  const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "",
-    imageUrl: "",
-    location:"",
+    location: "",
   });
 
   const handleChange = (e) => {
@@ -19,31 +19,42 @@ const SubmitComp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/complaints", {
-        ...formData,
-        //submittedBy: "USER_ID_HERE", 
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("category", formData.category);
+      form.append("location", formData.location);
+      if (image) {
+        form.append("image", image);
+      }
+
+      const res = await axios.post("http://localhost:5000/api/complaints", form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      toast.success(" Complaint submitted successfully!");
-    
-
+      toast.success("Complaint submitted successfully!");
       console.log(res.data);
-      setFormData({ title: "", description: "", category: "", imageUrl: "" }); // clear form
+
+      // Clear form
+      setFormData({ title: "", description: "", category: "", location: "" });
+      setImage(null);
     } catch (error) {
       console.error(error);
       toast.error("Failed to submit complaint!");
-       
-     
     }
   };
 
   return (
     <div className="complaint-form-container">
-        <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer position="top-center" autoClose={3000} />
       <h2 className="form-title">Submit a Complaint</h2>
       <form onSubmit={handleSubmit} className="complaint-form">
-        
         <div className="form-group">
           <label className="required-field">Title</label>
           <input
@@ -55,7 +66,6 @@ const SubmitComp = () => {
           />
         </div>
 
-        
         <div className="form-group">
           <label className="required-field">Description</label>
           <textarea
@@ -67,7 +77,6 @@ const SubmitComp = () => {
           ></textarea>
         </div>
 
-        
         <div className="form-group">
           <label className="required-field">Category</label>
           <select
@@ -82,45 +91,36 @@ const SubmitComp = () => {
             <option value="Water Leakage">Water Leakage</option>
             <option value="Water Supply">Water Supply</option>
             <option value="Electricity">Electricity</option>
-            <option value="others">Others</option>
+            <option value="Others">Others</option>
           </select>
         </div>
 
-          
         <div className="form-group">
           <label className="required-field">Location</label>
-
-          <textarea  name="location"
+          <textarea
+            name="location"
             value={formData.location}
             onChange={handleChange}
             rows="2"
             required
-          >
-          
-          </textarea>
+          ></textarea>
         </div>
 
-
-        
         <div className="form-group">
-          <label>Image URL (optional)</label>
+          <label htmlFor="image">Upload Image (optional)</label>
           <input
-            type="text"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
-            placeholder="Paste image link"
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
 
-       
-        
         <button type="submit" className="submit-btn">
           Submit Complaint
         </button>
       </form>
-
-    
     </div>
   );
 };

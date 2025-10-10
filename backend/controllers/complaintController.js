@@ -1,12 +1,17 @@
 import { Complaint } from "../models/complaint.js";
-
+import { v2 as cloudinary } from "cloudinary";
 //create or submit a complaint
 export const createComplaint = async (req, res) => {
   try {
-    const { title, description, category, location, imageUrl, priority } =
-      req.body;
+    const { title, description, category, location, priority } = req.body;
     const userId = req.user.id; // Assuming user ID is available in req.user
-
+    let imageUrl = null;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+    // console.log("Image URL:", imageUrl);
+    const trackingId = "CMP" + Date.now();
     const newComplaint = new Complaint({
       title,
       description,
@@ -15,6 +20,7 @@ export const createComplaint = async (req, res) => {
       imageUrl,
       priority,
       submittedBy: userId,
+      trackingId,
     });
 
     await newComplaint.save();
@@ -25,10 +31,12 @@ export const createComplaint = async (req, res) => {
         title: newComplaint.title,
         description: newComplaint.description,
         user: newComplaint.submittedBy,
-        // ...other fields
+        trackingId: newComplaint.trackingId,
+        imageUrl: newComplaint.imageUrl,
       },
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -136,6 +144,20 @@ export const assignStaffToComplaint = async (req, res) => {
     res.status(200).json({ msg: "Staff assigned successfully" });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+//track complaint by tracking id
+export const trackComplaint = async (req, res) => {
+  try {
+    const { trackingId } = req.params;
+    const complaint = await Complaint.findOne({ trackingId });
+    if (!complaint) {
+      return res.status(404).json({ msg: "Complaint not found" });
+    }
+    res.status(200).json(complaint);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 };
