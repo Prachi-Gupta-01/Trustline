@@ -18,7 +18,7 @@ export const StoreProvider = ({ children }) => {
     }
 
     axios
-      .get("http://localhost:5000/api/user/me", {
+      .get("http://localhost:5000/api/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {

@@ -5,6 +5,7 @@ import { connectdB } from "./config/db.js";
 import authRoute from "./routes/authRoute.js";
 import complaintRoutes from "./routes/complaintRoute.js";
 import contactRoute from "./routes/contactRoute.js";
+import userRoute from "./routes/userRoute.js";
 dotenv.config();
 connectdB();
 
@@ -17,7 +18,7 @@ app.use(express.json()); // parse incoming JSON requests
 app.use("/api/auth", authRoute);
 app.use("/api", complaintRoutes);
 app.use("/api", contactRoute);
-
+app.use("/api/user", userRoute);
 app.get("/", (req, res) => {
   res.send("Trustline is active!");
 });
