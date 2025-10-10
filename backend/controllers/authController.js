@@ -15,6 +15,8 @@ export const register = async (req, res) => {
       address1,
       address2,
       city,
+      department,
+      position,
       state,
       pincode,
       // adhaar,
@@ -53,6 +55,8 @@ export const register = async (req, res) => {
       otp,
       otpExpires,
       isVerified: false,
+      department,
+      position,
       role,
     });
 
