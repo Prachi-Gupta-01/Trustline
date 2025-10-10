@@ -9,6 +9,7 @@ import Track from "./pages/Track/Track.jsx";
 import Notify from "./pages/Notify/Notify.jsx";
 import About from "./component/About/About.jsx";
 import ContactUs from "./component/Contact/ContactUs.jsx";
+import StaffDashboard from "./pages/Dashboard/Dashboard.jsx";
 import { useState } from "react";
 const App=()=> {
   const [showLogin,setShowLogin]=useState(false);
@@ -26,6 +27,7 @@ const App=()=> {
         <Route path="/notifications" element={<Notify/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/ContactUs" element={<ContactUs/>}/>
+        <Route path="/Dashboard" element={<StaffDashboard/>}/>
       </Routes>
     </div>
  

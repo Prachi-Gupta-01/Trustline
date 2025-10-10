@@ -34,7 +34,10 @@ const FAQSection = () => {
 
   return (
     <div className="faq-container">
-      <h2 className="faq-heading">Answers to Common Queries</h2>
+        <div className="faq-left">
+            <p style={{color:"#0D9488"}}>FAQs</p>
+            <p className="faq-heading">Answers to Common Queries</p>
+        </div>
       <div className="faq-right">
         {faqs.map((faq, index) => (
           <div key={index} className="faq-item">

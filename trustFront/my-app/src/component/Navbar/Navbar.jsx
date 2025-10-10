@@ -35,7 +35,7 @@ const Navbar=(props)=> {
         }
         {
             showLogin &&
-            <div className="bb"><Link to="/profile" className="navbar-link">Dashboard</Link></div>
+            <div className="bb"><Link to="/Dashboard" className="navbar-link">Dashboard</Link></div>
         }
         {
             showLogin &&
