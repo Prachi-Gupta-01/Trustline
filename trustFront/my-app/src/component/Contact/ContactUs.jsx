@@ -1,7 +1,7 @@
 import { assets } from "../../assets/assets";
 import React, { useState } from "react";
 import "./ContactUs.css";
-
+import axios from "axios";
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,13 +14,22 @@ const ContactUs = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    alert("Your message has been sent!");
-    //  replace this alert with an API call like:
-    // axios.post('/api/contact', formData);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-  };
+   try{
+    const res = await axios.post("http://localhost:5000/api/contact", formData);
+    alert(res.data.message);
+    setFormData({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    })
+   }catch(err){
+    console.log(err);
+    alert(err.response?.data?.message || "Something went wrong. Please try again.");
+   }
+  }
 
   return (
     <div className="contact-container">
