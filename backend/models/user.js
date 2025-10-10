@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    otp: String,
+    otpExpires: Date,
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     password: {
       type: String,
       required: true,
@@ -44,11 +50,6 @@ const userSchema = new mongoose.Schema(
     pincode: {
       type: String,
       required: true,
-    },
-    adhaar: {
-      type: String,
-      required: true,
-      unique: true,
     },
 
     role: {

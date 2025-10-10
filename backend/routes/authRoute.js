@@ -1,11 +1,18 @@
 import express from "express";
-import { register, login } from "../controllers/authController.js";
+import {
+  register,
+  verifyOtp,
+  login,
+  resendOtp,
+} from "../controllers/authController.js";
 import { authorizeRoles } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 //register route
 router.post("/register", register);
+router.post("/verify-otp", verifyOtp);
+router.post("/resend-otp", resendOtp);
 //login route
 router.post("/login", login);
 router.get("/citizen", authorizeRoles("citizen"), (req, res) => {
