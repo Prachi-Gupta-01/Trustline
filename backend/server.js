@@ -6,6 +6,7 @@ import authRoute from "./routes/authRoute.js";
 import complaintRoutes from "./routes/complaintRoute.js";
 import contactRoute from "./routes/contactRoute.js";
 import userRoute from "./routes/userRoute.js";
+import notificationRoute from "./routes/notificationRoute.js";
 dotenv.config();
 connectdB();
 
@@ -19,6 +20,7 @@ app.use("/api/auth", authRoute);
 app.use("/api", complaintRoutes);
 app.use("/api", contactRoute);
 app.use("/api/user", userRoute);
+app.use("/api/notifications", notificationRoute);
 app.get("/", (req, res) => {
   res.send("Trustline is active!");
 });
