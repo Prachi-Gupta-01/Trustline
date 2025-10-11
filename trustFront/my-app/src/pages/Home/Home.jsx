@@ -5,7 +5,7 @@ import Features from "../../component/features/features";
 import Footer from "../../component/Footer/Footer";
 
 import FAQSection from "../../component/FAQ/FAQ";
-import AboutMe from "../aboutme/aboutme";
+
 
 
 
@@ -17,7 +17,7 @@ const Home=()=> {
             <Features/>
             <FAQSection/>   
             <Footer/>
-            <AboutMe/>
+        
         </div>
     )
 }
