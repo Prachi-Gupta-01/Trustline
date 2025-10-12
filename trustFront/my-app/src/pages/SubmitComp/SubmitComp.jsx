@@ -43,6 +43,9 @@ const SubmitComp = () => {
 
       toast.success("Complaint submitted successfully!");
       console.log(res.data);
+      axios.post("http://localhost:5000/api/notifications", {
+        userId: res.data.complaint.submittedBy,
+        message: `Your complaint "${res.data.complaint.title}" has been submitted successfully. Tracking ID: ${res.data.complaint.trackingId}`,})
 
       //storing tracking id
      setTrackingId(res.data.complaint.trackingId);

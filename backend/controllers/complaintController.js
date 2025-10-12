@@ -22,6 +22,11 @@ export const createComplaint = async (req, res) => {
       submittedBy: userId,
       trackingId,
     });
+    //notification to user
+    await Notification.create({
+      userId: userId,
+      message: `Your complaint "${title}" has been submitted successfully. Tracking ID: ${trackingId}`,
+    });
 
     await newComplaint.save();
     res.status(201).json({
@@ -155,7 +160,7 @@ export const trackComplaint = async (req, res) => {
     if (!complaint) {
       return res.status(404).json({ msg: "Complaint not found" });
     }
-    res.status(200).json({complaint});
+    res.status(200).json({ complaint });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
