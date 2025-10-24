@@ -52,7 +52,12 @@ const Signup = ({ setShowLogin }) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", form);
+      const payload = { ...form };
+      if(payload.role === "citizen"){
+        delete payload.department;
+        delete payload.position;
+      }
+      const res = await axios.post("http://localhost:5000/api/auth/register", payload);
       toast.success(res.data.message || "OTP sent to your email");
       setEmailForOtp(form.email);
       setOtpSent(true);

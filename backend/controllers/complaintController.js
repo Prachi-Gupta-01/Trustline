@@ -1,5 +1,6 @@
 import { Complaint } from "../models/complaint.js";
 import { v2 as cloudinary } from "cloudinary";
+import { Notification } from "../models/notification.js";
 //create or submit a complaint
 export const createComplaint = async (req, res) => {
   try {

@@ -12,7 +12,12 @@ connectdB();
 
 const app = express();
 
-app.use(cors()); // allow cross-origin requests i.e frontend to backend
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+); // allow cross-origin requests i.e frontend to backend
 app.use(express.json()); // parse incoming JSON requests
 
 //routes
